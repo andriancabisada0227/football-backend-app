@@ -7,6 +7,7 @@ import matchRoutes from "./routes/match.routes";
 import visualizationRoutes from "./routes/visualization.routes";
 import leaderboardRoutes from "./routes/leaderboard.routes";
 import pollRoutes from "./routes/poll.routes";
+import analyticsRoutes from "./routes/analytics.routes";
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,7 @@ app.use("/api/visuals", visualizationRoutes);
 app.use("/api/leaderboards", leaderboardRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/matches", matchRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 
 app.listen(3000, () => console.log("Server running on port 3000"));
