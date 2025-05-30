@@ -5,21 +5,21 @@ const prisma = new PrismaClient();
 
 export const getTopRatedPlayers = async (_req: Request, res: Response) => {
   const grouped = await prisma.rating.groupBy({
-    by: ['playerId'],
+    by: ["playerId"],
     _avg: { score: true },
     _count: true,
     orderBy: {
       _avg: {
-        score: 'desc'
-      }
+        score: "desc",
+      },
     },
-    take: 10
+    take: 10,
   });
 
   const players = await prisma.player.findMany();
 
   const top = grouped.map((entry) => {
-    const player = players.find(p => p.id === entry.playerId);
+    const player = players.find((p) => p.id === entry.playerId);
     return {
       name: player?.name,
       team: player?.team,
@@ -33,20 +33,22 @@ export const getTopRatedPlayers = async (_req: Request, res: Response) => {
 
 export const getMostActiveRaters = async (_req: Request, res: Response) => {
   const grouped = await prisma.rating.groupBy({
-    by: ['userId'],
-    _count: true,
+    by: ["userId"],
+    _count: {
+      id: true,
+    },
     orderBy: {
       _count: {
-        id: 'desc'
-      }
+        id: "desc",
+      },
     },
-    take: 10
+    take: 10,
   });
 
   const users = await prisma.user.findMany();
 
   const top = grouped.map((entry) => {
-    const user = users.find(u => u.id === entry.userId);
+    const user = users.find((u) => u.id === entry.userId);
     return {
       userId: user?.id,
       displayName: user?.displayName,
